@@ -12,8 +12,14 @@ dashboardPage(
             menuItem("Metodo Newton", tabName = "newton_method"),
             menuItem("Metodo Biseccion", tabName = "bisection_method"),
             menuItem("GD QP", tabName = "GD_Q"),
-            menuItem("GD Rosenbrock", tabName = "GD_Rosenbrock")
-            
+            menuItem("GD Rosenbrock", tabName = "GD_Rosenbrock"),
+            menuItem("Gen Data", tabName = "gen_data"),
+            menuItem("Closed Solution", tabName="Closed_Solution"),
+            menuItem("Batch GD", tabName="bgd_tab"),
+            menuItem("SGD", tabName="sgd_tab"),
+            menuItem("MiniBatch GD", tabName="mbgd_tab"),
+            menuItem("GD Backtracking Rosenbrock", tabName = "GD_Rosenbrock2"),
+            menuItem("Newton Backtracking Rosenbrock", tabName = "Newton_Rosenbrock")
         )
     ),
     dashboardBody(
@@ -77,7 +83,65 @@ dashboardPage(
                         textInput("n_gd2", "N (maximo iteraciones)"),
                         textInput("lr_gd2", "Ingrese LR")),
                     actionButton("gradieDescentRosenbrockSolver", "Rosenbrock Function GD Solver"),
-                    tableOutput("output_gd_rosenbrock_df"))
+                    tableOutput("output_gd_rosenbrock_df")),
+            tabItem("gen_data",
+                    h1("Generate Data"),
+                    box(textInput("d", "Ingrese numero columnas (d)"),
+                        textInput("n", "Ingrese numero observaciones (n)"),
+                        textInput("path", "Ingrese ruta")),
+                    actionButton("gen_data_btn", "Generate"),
+                    textOutput("output_gen_data")),
+            tabItem("Closed_Solution",
+                    h1("Solucion Cerrada"),
+                    box(
+                        textInput("path_closed", "Ingrese ruta")),
+                    actionButton("closedSolutionSolver", "Closed Solution"),
+                    tableOutput("output_closed_solution")),
+            tabItem("GD_Rosenbrock2",
+                    h1("Metodo de GD con Backtracking (Rosenbrock)"),
+                    box(textInput("xo_rb_bt_gd", "Ingrese X0 en el formato [a1,a2]"),
+                        textInput("e_rb_bt_gd", "Ingrese Tolerancia"),
+                        textInput("n_rb_bt_gd", "N (maximo iteraciones)"),
+                        textInput("lr_rb_bt_gd", "Ingrese LR")),
+                    actionButton("rosenbrack_backtracking_gdSolver", "Rosenbrock Function GD Solver"),
+                    tableOutput("out_rosenbrock_backtracking_gd")),
+            tabItem("Newton_Rosenbrock",
+                    h1("Metodo de Newton con Backtracking (Rosenbrock)"),
+                    box(textInput("xo_rb_bt_nwtn", "Ingrese X0 en el formato [a1,a2]"),
+                        textInput("e_rb_bt_nwtn", "Ingrese Tolerancia"),
+                        textInput("n_rb_bt_nwtn", "N (maximo iteraciones)"),
+                        textInput("lr_rb_bt_nwtn", "Ingrese LR")),
+                    actionButton("rosenbrack_backtracking_newtonSolver", "Rosenbrock Function Newton Solver"),
+                    tableOutput("out_rosenbrock_backtracking_nwtn")),
+            tabItem("bgd_tab",
+                    h1("Metodo de GD"),
+                    box(
+                        textInput("e_bgd", "Ingrese Tolerancia"),
+                        textInput("n_bgd", "N (maximo iteraciones)"),
+                        textInput("lr_bgd", "Ingrese LR"),
+                        textInput("path_bgd", "Ingrese Ruta")),
+                    actionButton("batchGDSolver", "Batch GD Solver"),
+                    tableOutput("out_batch_gd")),
+            tabItem("sgd_tab",
+                    h1("Metodo SGD"),
+                    box(
+                        textInput("e_sgd", "Ingrese Tolerancia"),
+                        textInput("n_sgd", "N (maximo iteraciones)"),
+                        textInput("lr_sgd", "Ingrese LR"),
+                        textInput("path_sgd", "Ingrese Ruta")),
+                    actionButton("sgdSolver", "SGD Solver"),
+                    tableOutput("out_sgd")),
+            tabItem("mbgd_tab",
+                    h1("Metodo Mini Batch GD"),
+                    box(
+                        textInput("e_mbgd", "Ingrese Tolerancia"),
+                        textInput("n_mbgd", "N (maximo iteraciones)"),
+                        textInput("lr_mbgd", "Ingrese LR"),
+                        textInput("bs_mbgd", "Ingrese Batch Size"),
+                        textInput("path_mbgd", "Ingrese Ruta")),
+                    actionButton("mbgdSolver", "MBGD Solver"),
+                    tableOutput("out_mbgd"))
         )
     )
 )
+

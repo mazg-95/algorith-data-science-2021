@@ -76,7 +76,96 @@ shinyServer(function(input, output) {
         outs
     })
 
+    # ##################################################
+
+    generateData <- eventReactive(input$gen_data_btn, {
+        d_str <- input$d[1]
+        n_str <- input$n[1]
+        path_str <- input$path[1]
+        outs <- generate_and_save_data(d_str, n_str, path_str)
+        "Success"
+    })
     
+
+    closed_solutionCalc <- eventReactive(input$closedSolutionSolver, {
+        path_str <- input$path_closed[1]
+        outs <- closed_solution_solver(path_str)
+        outs
+    })
+
+    batchGDCalc <- eventReactive(input$batchGDSolver, {
+        e_str <- input$e_bgd[1]
+        n_str <- input$n_bgd[1]
+        lr_str <- input$lr_bgd[1]
+        path <- input$path_bgd[1]
+        gd_solver(e_str, n_str, lr_str, path=path)}
+    )
+
+    sgdCalc <- eventReactive(input$sgdSolver, {
+        e_str <- input$e_sgd[1]
+        n_str <- input$n_sgd[1]
+        lr_str <- input$lr_sgd[1]
+        path <- input$path_sgd[1]
+        browser()
+        gd_solver(e_str, n_str, lr_str, path=path, method="sgd")}
+    )
+
+    mbgdCalc <- eventReactive(input$mbgdSolver, {
+        e_str <- input$e_mbgd[1]
+        n_str <- input$n_mbgd[1]
+        lr_str <- input$lr_mbgd[1]
+        batch_size_str <- input$bs_mbgd[1]
+        path <- input$path_mbgd[1]
+        gd_solver(e_str, n_str, lr_str, batch_size_str=batch_size_str, path=path, method="mbgd")}
+    )
+
+    rosenbrock_backtracking_gdCalc  <- eventReactive(input$rosenbrack_backtracking_gdSolver, {
+        x0_str <- input$xo_rb_bt_gd[1]
+        e_str <- input$e_rb_bt_gd[1]
+        n_str <- input$n_rb_bt_gd[1]
+        lr_str <- input$lr_rb_bt_gd[1]
+        ronsenbrock_gd_backtracking_solver(x0_str, e_str, n_str, lr_str)}
+    )
+
+    rosenbrock_backtracking_nwtnCalc  <- eventReactive(input$rosenbrack_backtracking_newtonSolver, {
+        x0_str <- input$xo_rb_bt_nwtn[1]
+        e_str <- input$e_rb_bt_nwtn[1]
+        n_str <- input$n_rb_bt_nwtn[1]
+        lr_str <- input$lr_rb_bt_nwtn[1]
+        ronsenbrock_newton_backtracking_solver(x0_str, e_str, n_str, lr_str)}
+    )
+
+
+    output$output_gen_data <- renderText({
+        generateData()
+    })
+    
+    output$output_closed_solution <- renderTable({
+        closed_solutionCalc()
+    })
+
+    output$out_batch_gd <- renderTable({
+        batchGDCalc()
+    })
+
+    output$out_sgd <- renderTable({
+        sgdCalc()
+    })
+
+    output$out_mbgd <- renderTable({
+        mbgdCalc()
+    })
+
+    output$out_rosenbrock_backtracking_gd <- renderTable({
+        rosenbrock_backtracking_gdCalc()
+    })
+
+    output$out_rosenbrock_backtracking_nwtn <- renderTable({
+        rosenbrock_backtracking_nwtnCalc()
+    })
+
+    # ##########################################
+
     #REnder metodo de Newton
     output$salidaTabla<-renderTable({
         newtonCalculate()
